@@ -1,0 +1,3 @@
+[submodule "image_colorization_api/image_colorization"]
+	path = image_colorization_api/image_colorization
+	url = https://github.com/delirecs/image_colorization.git

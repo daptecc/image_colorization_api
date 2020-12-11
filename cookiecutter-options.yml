@@ -1,0 +1,9 @@
+default_context:
+    project_name: "image_colorization_api"
+    app_name: "image_colorization_api"
+    python_version: "3.7"
+    admin_user_username: "d"
+    admin_user_email: "dannykpark@gmail.com"
+    admin_user_password: "swingbatta1"
+    use_celery: "no"
+    wsgi_server: "gunicorn"
