@@ -29,7 +29,9 @@ class ImageColorizerResource(Resource):
       responses:
         200:
           content:
-            multipart/form-data
+            application/json
+              msg: str
+              img: numpy array
         404:
           error message
     """
