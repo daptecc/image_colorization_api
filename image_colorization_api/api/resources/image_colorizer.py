@@ -1,6 +1,8 @@
 from flask_restful import Resource
-from flask import jsonify, request
+from flask import jsonify, request, send_file
+import numpy as np
 from PIL import Image
+import io
 from image_colorization_api.predict import make_prediction
 
 class ImageColorizerResource(Resource):
@@ -29,9 +31,7 @@ class ImageColorizerResource(Resource):
       responses:
         200:
           content:
-            application/json
-              msg: str
-              img: numpy array
+            image/PNG
         404:
           error message
     """
@@ -43,6 +43,13 @@ class ImageColorizerResource(Resource):
         '''
         
         data = request.files['file']
-        img = make_prediction(data.stream)
-        
-        return jsonify({'msg': 'success', 'img': img.shape})
+        img = Image.open(data.stream)
+        w,h = img.size
+    
+        img_color = make_prediction(data.stream)
+        img_color = Image.fromarray((img_color * 255).astype(np.uint8))
+        img_color = img_color.resize((600, int(600 * h / w)))
+        file_obj = io.BytesIO()
+        img_color.save(file_obj, 'png')
+        file_obj.seek(0)
+        return send_file(file_obj,  mimetype='image/PNG')
